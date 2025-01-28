@@ -12,5 +12,6 @@
         "Access-Control-Allow-Headers": "*"
       }
     }
-  ]
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
