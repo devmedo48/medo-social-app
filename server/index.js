@@ -12,7 +12,7 @@ database();
 
 let origin = [
   "http://localhost:5173",
-  "https://medo-social-app.vercel.app/auth",
+  "https://medo-social-app.vercel.app",
 ];
 app.use(cors({ credentials: true, origin }));
 app.use(express.json({ limit: "50mb" }));
