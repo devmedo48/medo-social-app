@@ -9,13 +9,13 @@ const SocketContext = createContext();
 export const useSocket = () => {
   return useContext(SocketContext);
 };
-
+let backendUrl = import.meta.env.VITE_BACKEND_URL;
 export default function SocketContextProvider({ children }) {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   let user = useRecoilValue(userAtom);
   useEffect(() => {
-    const socket = io("http://localhost:8000", {
+    const socket = io(backendUrl, {
       query: {
         userId: user?.id,
       },

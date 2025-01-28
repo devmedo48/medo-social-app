@@ -10,7 +10,10 @@ import { app, server } from "./socket/socket.js";
 configDotenv();
 database();
 
-let origin = ["http://localhost:5173"];
+let origin = [
+  "http://localhost:5173",
+  "https://medo-social-app.vercel.app/auth",
+];
 app.use(cors({ credentials: true, origin }));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
