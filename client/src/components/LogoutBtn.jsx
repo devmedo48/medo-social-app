@@ -16,7 +16,7 @@ import authScreenAtom from "../atoms/authAtom";
 import Cookies from "universal-cookie";
 
 export default function LogoutBtn() {
-  let cookies = Cookies();
+  let cookies = new Cookies();
   let navigate = useNavigate();
   let [loading, setLoading] = useState(false);
   const [isLargerThan30] = useMediaQuery("(min-width: 30em)");

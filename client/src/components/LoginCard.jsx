@@ -24,7 +24,7 @@ import { Helmet } from "react-helmet";
 import Cookies from "universal-cookie";
 
 export default function LoginCard() {
-  let cookies = Cookies();
+  let cookies = new Cookies();
   const [showPassword, setShowPassword] = useState(false);
   let setAuthScreen = useSetRecoilState(authScreenAtom);
   const setUser = useSetRecoilState(userAtom);
