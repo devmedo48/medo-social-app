@@ -5,13 +5,6 @@ export default async function jwtToken(userId, res) {
     expiresIn: "15d",
   });
 
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
-  );
-
   res.cookie("token", token, {
     httpOnly: true,
     maxAge: 15 * 24 * 60 * 60 * 1000,
