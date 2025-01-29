@@ -5,10 +5,10 @@ export default async function jwtToken(userId, res) {
     expiresIn: "15d",
   });
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    maxAge: 15 * 24 * 60 * 60 * 1000,
-    sameSite: "None",
-  });
+  // res.cookie("token", token, {
+  //   httpOnly: true,
+  //   maxAge: 15 * 24 * 60 * 60 * 1000,
+  //   sameSite: "None",
+  // });
   return token;
 }

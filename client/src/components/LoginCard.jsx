@@ -21,8 +21,10 @@ import { myAxios } from "../Api/myAxios";
 import { toast } from "react-toastify";
 import userAtom from "../atoms/userAtom";
 import { Helmet } from "react-helmet";
+import Cookies from "universal-cookie";
 
 export default function LoginCard() {
+  let cookies = Cookies();
   const [showPassword, setShowPassword] = useState(false);
   let setAuthScreen = useSetRecoilState(authScreenAtom);
   const setUser = useSetRecoilState(userAtom);
@@ -39,6 +41,7 @@ export default function LoginCard() {
         let { data } = await myAxios.post("login", form);
         toast.success(data.message);
         localStorage.setItem("user", JSON.stringify(data.user));
+        cookies.set("token", data.token);
         setUser(data.user);
       }
     } catch (error) {

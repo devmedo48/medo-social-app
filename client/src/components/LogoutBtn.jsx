@@ -13,8 +13,10 @@ import { toast } from "react-toastify";
 import { myAxios } from "../Api/myAxios";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 import authScreenAtom from "../atoms/authAtom";
+import Cookies from "universal-cookie";
 
 export default function LogoutBtn() {
+  let cookies = Cookies();
   let navigate = useNavigate();
   let [loading, setLoading] = useState(false);
   const [isLargerThan30] = useMediaQuery("(min-width: 30em)");
@@ -27,6 +29,7 @@ export default function LogoutBtn() {
       let { data } = await myAxios.post("logout");
       toast.info(data.message);
       localStorage.removeItem("user");
+      cookies.remove("token");
       setUser(false);
     } catch (error) {
       toast.error(error.response.data.message);

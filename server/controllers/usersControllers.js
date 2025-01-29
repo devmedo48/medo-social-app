@@ -28,12 +28,13 @@ export let register = handleError(async (req, res, next) => {
   delete _doc.createdAt;
   delete _doc.updatedAt;
 
-  await jwtToken(id, res);
+  let token = await jwtToken(id, res);
 
   res.status(201).json({
     message: "You have registered successfully",
     success: true,
     user: _doc,
+    token,
   });
 });
 
@@ -50,11 +51,12 @@ export let login = handleError(async (req, res, next) => {
     delete user._doc.createdAt;
     delete user._doc.updatedAt;
     if (isPasswordCorrect) {
-      await jwtToken(user.id, res);
+      let token = await jwtToken(user.id, res);
       res.json({
         message: "You have loggedin successfully",
         success: true,
         user,
+        token,
       });
     } else {
       next(new appError("Wrong password", 400));
@@ -65,7 +67,6 @@ export let login = handleError(async (req, res, next) => {
 });
 
 export let logout = handleError(async (req, res, next) => {
-  res.cookie("token", "", { maxAge: 1 });
   res.json({
     message: "You have loggedout successfully",
     success: true,

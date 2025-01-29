@@ -1,9 +1,10 @@
 import axios from "axios";
-axios.defaults.withCredentials = true;
+import Cookies from "universal-cookie";
+let cookies = Cookies();
+let token = cookies.get("token");
 export let myAxios = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL + "/api",
   headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    Authorization: `Bearer ${token}`,
   },
 });

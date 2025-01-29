@@ -23,8 +23,10 @@ import { toast } from "react-toastify";
 import userAtom from "../atoms/userAtom";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import Cookies from "universal-cookie";
 
 export default function SignupCard() {
+  let cookies = Cookies();
   const [showPassword, setShowPassword] = useState(false);
   const setAuthScreen = useSetRecoilState(authScreenAtom);
   const setUser = useSetRecoilState(userAtom);
@@ -49,6 +51,7 @@ export default function SignupCard() {
         let { data } = await myAxios.post("register", form);
         toast.success(data.message);
         localStorage.setItem("user", JSON.stringify(data.user));
+        cookies.set("token", data.token);
         navigate("/update");
         setUser(data.user);
       }
