@@ -1,9 +1,20 @@
 import jwt from "jsonwebtoken";
 
-export default function jwtToken(userId, res) {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
+export default async function jwtToken(userId, res) {
+  const token = await jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
     expiresIn: "15d",
   });
+
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
 
   res.cookie("token", token, {
     httpOnly: true,
