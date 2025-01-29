@@ -16,17 +16,19 @@ export default function SocketContextProvider({ children }) {
   const [onlineUsers, setOnlineUsers] = useState([]);
   let user = useRecoilValue(userAtom);
   useEffect(() => {
-    const socket = io(backendUrl, {
-      query: {
-        userId: user?.id,
-      },
-    });
-    setSocket(socket);
-    socket.on("getOnlineUsers", (users) => {
-      setOnlineUsers(users);
-    });
+    if (user) {
+      const socket = io(backendUrl, {
+        query: {
+          userId: user?.id,
+        },
+      });
+      setSocket(socket);
+      socket.on("getOnlineUsers", (users) => {
+        setOnlineUsers(users);
+      });
+    }
     return () => socket && socket.close();
-  }, [user?.id]);
+  }, [user]);
   return (
     <SocketContext.Provider value={{ socket, onlineUsers }}>
       {children}
