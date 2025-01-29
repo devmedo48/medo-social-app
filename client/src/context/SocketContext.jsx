@@ -10,6 +10,7 @@ export const useSocket = () => {
   return useContext(SocketContext);
 };
 let backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function SocketContextProvider({ children }) {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
