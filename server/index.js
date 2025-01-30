@@ -6,14 +6,12 @@ import database from "./config/database.js";
 import mountRoutes from "./routes/index.js";
 import { v2 as cloudinary } from "cloudinary";
 import { app, server } from "./socket/socket.js";
+import path from "path";
 
 configDotenv();
 database();
 
-let origin = [
-  "http://localhost:5173",
-  "https://medo-social-app.vercel.app",
-];
+let origin = ["http://localhost:5173", "https://medo-social-app.vercel.app"];
 app.use(cors({ credentials: true, origin }));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -27,6 +25,13 @@ app.use((error, req, res, next) => {
     success: false,
   });
 });
+let __dirname = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/dist", "index.html"));
+  });
+}
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
