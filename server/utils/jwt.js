@@ -8,7 +8,7 @@ export default async function jwtToken(userId, res) {
   res.cookie("token", token, {
     httpOnly: true,
     maxAge: 15 * 24 * 60 * 60 * 1000,
-    sameSite: "None",
+    sameSite: "strict",
   });
   return token;
 }

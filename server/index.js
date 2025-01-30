@@ -11,8 +11,6 @@ import path from "path";
 configDotenv();
 database();
 
-let origin = ["http://localhost:5173", "https://medo-social-app.vercel.app"];
-app.use(cors({ credentials: true, origin }));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -26,7 +24,9 @@ app.use((error, req, res, next) => {
   });
 });
 let __dirname = path.resolve();
-if (process.env.NODE_ENV === "production") {
+let isProduction = process.env.NODE_ENV.startsWith("p");
+
+if (isProduction) {
   app.use(express.static(path.join(__dirname, "client/dist")));
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client/dist", "index.html"));
