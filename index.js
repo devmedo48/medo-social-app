@@ -1,7 +1,6 @@
 import { configDotenv } from "dotenv";
 import express from "express";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import database from "./config/database.js";
 import mountRoutes from "./routes/index.js";
 import { v2 as cloudinary } from "cloudinary";
