@@ -18,11 +18,14 @@ import userAtom from "../atoms/userAtom";
 import { myAxios } from "../Api/myAxios";
 import { BsCheck2All } from "react-icons/bs";
 import chatAtom from "../atoms/chatAtom";
+import { useSocket } from "../context/SocketContext";
 
 export default function Conversation({ conversation, isOnline }) {
   let user = useRecoilValue(userAtom);
   let [chat, setChat] = useRecoilState(chatAtom);
   let [messenger, setMessenger] = useState("");
+  let [typing, setTyping] = useState(false);
+  let { socket } = useSocket();
   useEffect(() => {
     if (conversation) {
       let participant = conversation.participants.filter(
@@ -33,6 +36,19 @@ export default function Conversation({ conversation, isOnline }) {
         .then(({ data }) => setMessenger(data.user));
     }
   }, [conversation]);
+  useEffect(() => {
+    socket?.on("hideTyping", ({ conversationId }) => {
+      if (conversationId === conversation?._id) {
+        setTyping(false);
+      }
+    });
+
+    socket?.on("showTyping", ({ conversationId }) => {
+      if (conversationId === conversation?._id) {
+        setTyping(true);
+      } else setTyping(false);
+    });
+  }, [socket, conversation, typing]);
   let bg = useColorModeValue("gray.500", "gray.dark");
   return messenger ? (
     <HStack
@@ -64,16 +80,22 @@ export default function Conversation({ conversation, isOnline }) {
           {messenger.name}
           <Image src="/verifyed.png" w={4} h={4} objectFit={"cover"} />
         </Text>
-        <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
-          {conversation.lastMessage.sender === user.id && (
-            <Box color={conversation.lastMessage.seen ? "blue.500" : ""}>
-              <BsCheck2All />
-            </Box>
-          )}
-          {conversation.lastMessage.text.length > 18
-            ? conversation.lastMessage.text.substring(0, 18) + "..."
-            : conversation.lastMessage.text}
-        </Text>
+        {typing ? (
+          <Text color={"green.400"} fontSize={"xs"} fontWeight={"bold"}>
+            Typing...
+          </Text>
+        ) : (
+          <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
+            {conversation.lastMessage.sender === user.id && (
+              <Box color={conversation.lastMessage.seen ? "blue.500" : ""}>
+                <BsCheck2All />
+              </Box>
+            )}
+            {conversation.lastMessage.text.length > 18
+              ? conversation.lastMessage.text.substring(0, 18) + "..."
+              : conversation.lastMessage.text}
+          </Text>
+        )}
       </Flex>
     </HStack>
   ) : (

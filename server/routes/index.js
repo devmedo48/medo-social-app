@@ -6,7 +6,4 @@ export default function mountRoutes(app) {
   app.use("/api", usersRoute);
   app.use("/api/post", postsRoute);
   app.use("/api/message", messagesRoute);
-  app.all("*", (req, res, next) => {
-    next(new appError("this route is not found", 404));
-  });
 }

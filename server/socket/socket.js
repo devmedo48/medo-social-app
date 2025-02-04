@@ -7,8 +7,12 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
+<<<<<<< HEAD
     // origin: ["http://localhost:5173", "https://medo-social-app.vercel.app"],
     origin: "https://medo-social-app.vercel.app",
+=======
+    origin: "http://localhost:3000",
+>>>>>>> cookies
     methods: ["GET", "POST", "PUT"],
   },
 });

@@ -176,6 +176,31 @@ export let searchUsers = handleError(async (req, res, next) => {
   });
 });
 
+export let getSuggestedUsers = handleError(async (req, res, next) => {
+  let { userId } = req.body;
+  let userFollowedByYou = await userModel
+    .find({ id: userId })
+    .select("following");
+  let users = await userModel.aggregate([
+    {
+      $match: {
+        id: { $ne: userId },
+      },
+    },
+    {
+      $sample: { size: 10 },
+    },
+  ]);
+  let filteredUsers = users.filter(
+    (user) => !userFollowedByYou[0].following.includes(user.id)
+  );
+  let suggestedUsers = filteredUsers.slice(0, 4);
+  res.json({
+    success: true,
+    users: suggestedUsers,
+  });
+});
+
 export let followUnfollow = handleError(async (req, res, next) => {
   let { userId } = req.body;
   let id = +req.params.id;

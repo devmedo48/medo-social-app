@@ -1,6 +1,7 @@
 import express from "express";
 import {
   followUnfollow,
+  getSuggestedUsers,
   getUserProflile,
   login,
   logout,
@@ -16,6 +17,7 @@ router.post("/register", registerMiddlewares, register);
 router.post("/login", login);
 router.post("/logout", logout);
 router.put("/update", verifyToken, updateUser);
+router.get("/suggested", verifyToken, getSuggestedUsers);
 router.put("/follow/:id", verifyToken, followUnfollow);
 router.get("/profile/:query", getUserProflile);
 router.get("/search/:query", searchUsers);

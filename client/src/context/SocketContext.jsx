@@ -9,7 +9,6 @@ const SocketContext = createContext();
 export const useSocket = () => {
   return useContext(SocketContext);
 };
-let backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function SocketContextProvider({ children }) {
   const [socket, setSocket] = useState(null);
@@ -17,7 +16,7 @@ export default function SocketContextProvider({ children }) {
   let user = useRecoilValue(userAtom);
   useEffect(() => {
     if (user) {
-      const socket = io(backendUrl, {
+      const socket = io("http://localhost:8000", {
         query: {
           userId: user?.id,
         },

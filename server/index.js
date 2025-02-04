@@ -5,6 +5,7 @@ import database from "./config/database.js";
 import mountRoutes from "./routes/index.js";
 import { v2 as cloudinary } from "cloudinary";
 import { app, server } from "./socket/socket.js";
+import path from "path";
 
 configDotenv();
 database();
@@ -21,6 +22,15 @@ app.use((error, req, res, next) => {
     success: false,
   });
 });
+let __dirname = path.resolve();
+let isProduction = process.env.NODE_ENV.startsWith("p");
+
+if (isProduction) {
+  app.use(express.static(path.join(__dirname, "client/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/dist", "index.html"));
+  });
+}
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

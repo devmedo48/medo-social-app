@@ -63,7 +63,7 @@ export default function LogoutBtn() {
         </Button>
       </ButtonGroup>
     ) : (
-      <IconButton colorScheme="blue">
+      <IconButton colorScheme="blue" onClick={handleLogout}>
         <FiLogOut />
       </IconButton>
     )

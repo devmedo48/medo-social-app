@@ -21,6 +21,7 @@ import chatAtom from "../atoms/chatAtom";
 import { useSocket } from "../context/SocketContext";
 import conversationAtom from "../atoms/conversationsAtom";
 import { PulseLoader } from "react-spinners";
+import messageSound from "../assets/sound.wav";
 
 export default function MessageContainer() {
   let setConversations = useSetRecoilState(conversationAtom);
@@ -36,6 +37,8 @@ export default function MessageContainer() {
 
   useEffect(() => {
     socket?.on("newMessage", (message) => {
+      let sound = new Audio(messageSound);
+      sound.play();
       if (conversation && conversation._id === message.conversationId) {
         setMessages((prevMessages) => [message, ...prevMessages]);
       }
@@ -75,7 +78,9 @@ export default function MessageContainer() {
 
   useEffect(() => {
     socket?.on("hideTyping", ({ conversationId }) => {
-      if (conversationId === conversation?._id) setTyping(false);
+      if (conversationId === conversation?._id) {
+        setTyping(false);
+      }
     });
 
     socket?.on("showTyping", ({ conversationId }) => {
