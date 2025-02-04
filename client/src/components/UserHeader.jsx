@@ -47,17 +47,16 @@ export default function UserHeader({ user }) {
     setLoading(true);
     try {
       let { data } = await myAxios.put("follow/" + user.id);
-      if (data.user.followers > user.followers) {
-        user.followers.push(currentUser.id);
+      toast.success(data.message);
+      if (data.user.following.includes(user.id)) {
+        user.followers.length += 1;
       } else {
-        let index = user.followers.indexOf(currentUser.id);
-        user.followers.splice(index, 1);
+        user.followers.length -= 1;
       }
       setCurrentUser(data.user);
       localStorage.user = JSON.stringify(data.user);
-      toast.success(data.message);
-    } catch (data) {
-      toast.error(data.response.data.message);
+    } catch ({ response }) {
+      toast.error(response.data.message);
     } finally {
       setLoading(false);
     }
@@ -66,7 +65,9 @@ export default function UserHeader({ user }) {
     if (currentUser) {
       if (currentUser.following.includes(user.id)) {
         setFollow(true);
-      } else setFollow(false);
+      } else {
+        setFollow(false);
+      }
     }
   }, [currentUser, user]);
   return (

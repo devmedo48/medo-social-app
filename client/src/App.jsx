@@ -1,5 +1,5 @@
 import { Box, Container, useColorMode } from "@chakra-ui/react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import UserPage from "./Pages/UserPage";
 import PostPage from "./Pages/PostPage";
 import Header from "./components/Header";
@@ -14,6 +14,7 @@ import ChatPage from "./Pages/ChatPage";
 function App() {
   let { colorMode } = useColorMode();
   let user = useRecoilValue(userAtom);
+  let { pathname } = useLocation();
   return (
     <Box pos={"relative"} w={"full"}>
       <ToastContainer
@@ -22,7 +23,7 @@ function App() {
         closeOnClick
         theme={colorMode}
       />
-      <Container maxW="620px" pb={6}>
+      <Container maxW={pathname === "/" ? "900px" : "620px"} pb={6}>
         <Header />
         <Routes>
           <Route

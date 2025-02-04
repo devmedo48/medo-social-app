@@ -45,7 +45,6 @@ export default function UpdateProfilePage() {
   async function handleUpdate() {
     if (loading) return;
     setLoading(true);
-    console.log(imgUrls);
     try {
       form.profilePic = imgUrls[0] || form.profilePic;
       let { data } = await myAxios.put("update", form);

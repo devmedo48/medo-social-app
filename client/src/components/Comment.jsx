@@ -2,7 +2,6 @@
 import { Avatar, Divider, Flex, Image, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-// import Actions from "./Actions";
 import { useNavigate } from "react-router-dom";
 
 export default function Comment({
@@ -13,7 +12,6 @@ export default function Comment({
   username,
   userAvatar,
 }) {
-  const [liked, setLiked] = useState(false);
   let navigate = useNavigate();
   return (
     <>
@@ -61,10 +59,6 @@ export default function Comment({
             </Flex>
           </Flex>
           <Text>{comment}</Text>
-          {/* <Actions liked={liked} setLiked={setLiked} /> */}
-          <Text fontSize={"sm"} color={"gray.light"}>
-            {likes.length + (liked ? 1 : 0)} likes
-          </Text>
         </Flex>
       </Flex>
       <Divider w={"80%"} mx={"auto"} />
